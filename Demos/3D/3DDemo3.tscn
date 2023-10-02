@@ -1,10 +1,10 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://Demos/3D/Resources/Tree3/lsys_tree3.tres" type="Resource" id=1]
-[ext_resource path="res://Tree/Tree.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Demos/3D/Resources/Tree3/leaf_tree3.tres" type="Resource" id=3]
+[ext_resource path="res://addons/procedural-tree-generation/Demos/3D/Resources/Tree3/lsys_tree3.tres" type="Resource" id=1]
+[ext_resource path="res://addons/procedural-tree-generation/Tree/Tree.tscn" type="PackedScene" id=2]
+[ext_resource path="res://addons/procedural-tree-generation/Demos/3D/Resources/Tree3/leaf_tree3.tres" type="Resource" id=3]
 
-[node name="3DDemo3" type="Spatial"]
+[node name="3DDemo3" type="Node3D"]
 
 [node name="Tree" parent="." instance=ExtResource( 2 )]
 l_system = ExtResource( 1 )

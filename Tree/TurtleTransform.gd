@@ -1,6 +1,6 @@
-tool
+@tool
 class_name TurtleTransform
-extends Reference
+extends RefCounted
 
 
 var position := Vector3()

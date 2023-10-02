@@ -1,5 +1,5 @@
 class_name Branch
-extends Reference
+extends RefCounted
 
 
 var point_a: Vector3
@@ -40,19 +40,19 @@ func add_to_tree_mesh(tree_mesh: TreeMesh, bottom: Array, depth: int, leaf_setti
 			thickness, point_a.distance_to(point_b))
 	
 	# create branch
-	var attrs: MeshAttributes = create_mesh(bottom.size(), bottom, top, point_a, 
+	var attrs: MeshAttributes = Branch.create_mesh(bottom.size(), bottom, top, point_a, 
 			rot_basis, point_a.distance_to(point_b))
 	tree_mesh.add_branch(attrs)
 
 	# create leaves along branch
 	if depth >= leaf_settings.min_depth:
-		var leaf_attrs: MeshAttributes = create_leaves_across_branch(point_a, rot_basis, 
+		var leaf_attrs: MeshAttributes = Branch.create_leaves_across_branch(point_a, rot_basis, 
 				thickness, point_a.distance_to(point_b), leaf_settings)
 		tree_mesh.add_leaf(leaf_attrs)
 
 	# add leaf to end
 	if children.size() == 0:
-		var leaf_attrs: MeshAttributes = create_leaf(point_b, rot_basis, leaf_settings)
+		var leaf_attrs: MeshAttributes = Branch.create_leaf(point_b, rot_basis, leaf_settings)
 		tree_mesh.add_leaf(leaf_attrs)
 	
 	# repeat for children
@@ -61,26 +61,26 @@ func add_to_tree_mesh(tree_mesh: TreeMesh, bottom: Array, depth: int, leaf_setti
 	
 	
 # create points for the top side of the branch
-func create_top_points(num_points: int, translation: Vector3, rotation: Basis,
+func create_top_points(num_points: int, position: Vector3, rotation: Basis,
 		width: float, height: float) -> Array:
 	
 	var top := []
 	for i in (num_points):
-		var v: Vector3 = get_prism_point(float(i) / num_points, width, height)
+		var v: Vector3 = Branch.get_prism_point(float(i) / num_points, width, height)
 		v = rotation * v
-		v += translation
+		v += position
 		top.append(v)
 	
 	return top
 	
 	
-static func create_mesh(num_sides: int, bottom: Array, top: Array, translation: Vector3, 
+static func create_mesh(num_sides: int, bottom: Array, top: Array, position: Vector3, 
 		rotation: Basis, height: float) -> MeshAttributes:
 	
 	var attrs := MeshAttributes.new()
 	
-	var centre_top := translation + rotation * Vector3(0, height, 0)
-	var centre_bottom := translation
+	var centre_top := position + rotation * Vector3(0, height, 0)
+	var centre_bottom := position
 	
 	# align bottom and top arrays
 	# by rotating bottom array to the layout that has the least distance to the top array
@@ -98,7 +98,7 @@ static func create_mesh(num_sides: int, bottom: Array, top: Array, translation: 
 	
 	# create sides
 	for i in (num_sides):
-		attrs.append_indices(PoolIntArray([
+		attrs.append_indices(PackedInt32Array([
 			i,
 			i + num_sides,
 			(i + 1) % num_sides,
@@ -111,8 +111,8 @@ static func create_mesh(num_sides: int, bottom: Array, top: Array, translation: 
 	for i in (num_sides * 2):
 		attrs.append_uv(Vector2())
 	
-	attrs.append_verts(PoolVector3Array(top))
-	attrs.append_verts(PoolVector3Array(bottom))
+	attrs.append_verts(PackedVector3Array(top))
+	attrs.append_verts(PackedVector3Array(bottom))
 	
 	for vertex in top:
 		attrs.append_normal((centre_top - vertex).normalized())
@@ -130,14 +130,14 @@ static func get_prism_point(angle_percent: float, width: float, height: float) -
 	
 	
 # create leaves parallel to and on either side of the branch at a regular frequency
-static func create_leaves_across_branch(translation: Vector3, rotation: Basis, 
+static func create_leaves_across_branch(position: Vector3, rotation: Basis, 
 		branch_width: float, branch_height: float, settings: LeafSettings) -> MeshAttributes:
 	var attrs := MeshAttributes.new()
 	
 	for i in range(0, branch_height, 1 / settings.frequency):
 		for j in [-1, 1]:
 			var offset := Vector3((branch_width + settings.width / 2) * j, i, 0)
-			var leaf_attrs: MeshAttributes = create_leaf(translation + rotation * offset, rotation, settings)
+			var leaf_attrs: MeshAttributes = create_leaf(position + rotation * offset, rotation, settings)
 			attrs.append_mesh_attributes(leaf_attrs)
 	
 	return attrs
@@ -146,17 +146,17 @@ static func create_leaves_across_branch(translation: Vector3, rotation: Basis,
 # create a single leaf given the point where it attaches to the branch, 
 # the rotation and the leaf settings for this tree.
 # the leaf is a flat rectangle
-static func create_leaf(translation: Vector3, rotation: Basis, settings: LeafSettings) -> MeshAttributes:
+static func create_leaf(position: Vector3, rotation: Basis, settings: LeafSettings) -> MeshAttributes:
 	var attrs := MeshAttributes.new()
 	
-	attrs.append_verts(PoolVector3Array([
-		translation + rotation * Vector3(-settings.width / 2, 0, 0),
-		translation + rotation * Vector3(settings.width / 2, 0, 0),
-		translation + rotation * Vector3(-settings.width / 2, settings.height, 0),
-		translation + rotation * Vector3(settings.width / 2, settings.height, 0),
+	attrs.append_verts(PackedVector3Array([
+		position + rotation * Vector3(-settings.width / 2, 0, 0),
+		position + rotation * Vector3(settings.width / 2, 0, 0),
+		position + rotation * Vector3(-settings.width / 2, settings.height, 0),
+		position + rotation * Vector3(settings.width / 2, settings.height, 0),
 	]))
 	
-	attrs.append_uvs(PoolVector2Array([
+	attrs.append_uvs(PackedVector2Array([
 		Vector2(0, 0),
 		Vector2(1, 0),
 		Vector2(0, 1),
@@ -169,6 +169,6 @@ static func create_leaf(translation: Vector3, rotation: Basis, settings: LeafSet
 	
 	for i in (4):
 		attrs.append_normal(normal)
-	attrs.append_indices(PoolIntArray([0, 1, 2, 2, 1, 3]), false)
+	attrs.append_indices(PackedInt32Array([0, 1, 2, 2, 1, 3]), false)
 	
 	return attrs

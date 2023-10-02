@@ -1,22 +1,21 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=4 format=3 uid="uid://bgiwqp3ohurw7"]
 
-[ext_resource path="res://Tree/Tree.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Demos/3D/Resources/Tree1/leaf_tree1_1.tres" type="Resource" id=2]
-[ext_resource path="res://Demos/3D/Resources/Tree1/lsys_tree1.tres" type="Resource" id=3]
+[ext_resource type="PackedScene" uid="uid://cokgws54mdiyb" path="res://addons/procedural-tree-generation/Tree/Tree.tscn" id="1"]
+[ext_resource type="Resource" path="res://addons/procedural-tree-generation/Demos/3D/Resources/Tree1/leaf_tree1_1.tres" id="2"]
+[ext_resource type="Resource" path="res://addons/procedural-tree-generation/Demos/3D/Resources/Tree1/lsys_tree1.tres" id="3"]
 
+[node name="3DDemo1" type="Node3D"]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
 
-[node name="3DDemo1" type="Spatial"]
-transform = Transform( 0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0 )
-
-[node name="Tree" parent="." instance=ExtResource( 1 )]
-l_system = ExtResource( 3 )
+[node name="Tree" parent="." instance=ExtResource("1")]
+l_system = ExtResource("3")
 start_length = 10
 length_variance = 0.25
 thickness_factor = 0.7
 min_rotation = 13.0
 max_rotation = 17.0
-colour = Color( 0.647059, 0.443137, 0.443137, 1 )
-leaf_settings = ExtResource( 2 )
+colour = Color(0.647059, 0.443137, 0.443137, 1)
+leaf_settings = ExtResource("2")
 
-[node name="Camera" type="Camera" parent="."]
-transform = Transform( 5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 48.9054, 116.105 )
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 48.9054, 116.105)

@@ -2,5 +2,5 @@ class_name Rule
 extends AACustomResource
 
 
-export(String) var predecessor 
-export(String) var successor
+@export var predecessor: String 
+@export var successor: String

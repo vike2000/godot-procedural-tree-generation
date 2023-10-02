@@ -11,18 +11,18 @@ extends Node2D
 # ]: pop a transformation from the stack 
 
 # must be an LSystem
-export(Resource) var l_system
+@export var l_system: Resource
 
-export(int) var start_length = 20
-export(float) var length_factor = .5
-export(int, 1, 100) var thickness = 1
+@export var start_length: int = 20
+@export var length_factor: float = .5
+@export var thickness = 1 # (int, 1, 100)
 
-export(float, 0, 360) var min_rotation = 15
-export(float, 0, 360) var max_rotation = 35
+@export var min_rotation = 15 # (float, 0, 360)
+@export var max_rotation = 35 # (float, 0, 360)
 
-export(Color) var colour = Color(1, 1, 1, 1)
+@export var colour: Color = Color(1, 1, 1, 1)
 
-export(int) var random_seed = 0
+@export var random_seed: int = 0
 
 var branches: Array
 
@@ -46,9 +46,9 @@ func generate() -> void:
 			'F':
 				branches.append(turtle.create_line(length))
 			'+':
-				turtle.rotate(rand_range(min_rotation, max_rotation))
+				turtle.rotate(randf_range(min_rotation, max_rotation))
 			'-':
-				turtle.rotate(-rand_range(min_rotation, max_rotation))
+				turtle.rotate(-randf_range(min_rotation, max_rotation))
 			'[':
 				turtle.push()
 				length *= length_factor

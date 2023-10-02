@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://Tree2D/Tree2D.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Demos/2D/Resources/Tree2/lsys_tree2.tres" type="Resource" id=2]
+[ext_resource path="res://addons/procedural-tree-generation/Tree2D/Tree2D.tscn" type="PackedScene" id=1]
+[ext_resource path="res://addons/procedural-tree-generation/Demos/2D/Resources/Tree2/lsys_tree2.tres" type="Resource" id=2]
 
 [node name="2DDemo2" type="Node2D"]
 

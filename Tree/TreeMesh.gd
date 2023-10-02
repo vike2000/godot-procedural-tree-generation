@@ -1,6 +1,6 @@
-tool
+@tool
 class_name TreeMesh
-extends MeshInstance
+extends MeshInstance3D
 
 
 var branches := MeshAttributes.new()
@@ -15,23 +15,25 @@ func add_leaf(attrs: MeshAttributes) -> void:
 	leaves.append_mesh_attributes(attrs)
 
 
-func commit_mesh(branch_colour: Color, leaf_colour: Color) -> void:
+func commit_mesh(branch_colour: Color, leaf_colour: Color) -> TreeMesh: # hasbeen -> void
 	mesh = ArrayMesh.new()
 	
 	# add branch surface
 	mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, branches.create_array())
 	
-	var mat = SpatialMaterial.new()
+	var mat = StandardMaterial3D.new()
 	mat.set_albedo(branch_colour)
-	mat.set_cull_mode(SpatialMaterial.CULL_DISABLED)
+	mat.set_cull_mode(StandardMaterial3D.CULL_DISABLED)
 
-	set_surface_material(0, mat)
+	set_surface_override_material(0, mat)
 
 	# add leaf surface
 	mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, leaves.create_array())
 	
-	mat = SpatialMaterial.new()
+	mat = StandardMaterial3D.new()
 	mat.set_albedo(leaf_colour)
-	mat.set_cull_mode(SpatialMaterial.CULL_DISABLED)
+	mat.set_cull_mode(StandardMaterial3D.CULL_DISABLED)
 
-	set_surface_material(1, mat)
+	set_surface_override_material(1, mat)
+	
+	return self # hasbeen void

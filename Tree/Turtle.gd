@@ -1,6 +1,6 @@
-tool
+@tool
 class_name Turtle
-extends Reference
+extends RefCounted
 
 
 var transform_stack := [TurtleTransform.new()]
@@ -16,7 +16,7 @@ func create_branch(length: float, variance: float, thickness: float, colour: Col
 	
 	# get the start and end points for the branch
 	var point1 := get_current_point()
-	transform.move_forward(length * rand_range(1 - variance, 1 + variance))
+	transform.move_forward(length * randf_range(1 - variance, 1 + variance))
 	var point2 := get_current_point()
 	# get the branch's rotation
 	var rotation: Basis = get_current_rotation()
@@ -31,7 +31,7 @@ func create_branch(length: float, variance: float, thickness: float, colour: Col
 # rotate the current transform around an axis
 func rotate(axis: Vector3, angle: float) -> void:
 	var transform: TurtleTransform = transform_stack[-1]
-	transform.rotate(axis, deg2rad(angle))
+	transform.rotate(axis, deg_to_rad(angle))
 	
 
 func push() -> void:

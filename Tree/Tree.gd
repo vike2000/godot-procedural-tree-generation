@@ -1,5 +1,5 @@
-tool
-extends Spatial
+@tool
+extends Node3D
 
 # https://github.com/abiusx/L3D
 
@@ -19,27 +19,27 @@ const Y := Vector3.UP
 const Z := Vector3.BACK
 
 # must be an LSystem
-export(Resource) var l_system
+@export var l_system: Resource
 
-export(int) var start_length = 20
-export(float) var length_factor = .9
-export(float) var length_variance = .1
-export(float, 0, 100) var start_thickness = 1
-export(float) var thickness_factor = 1
+@export var start_length: int = 20
+@export var length_factor: float = .9
+@export var length_variance: float = .1
+@export var start_thickness = 1 # (float, 0, 100)
+@export var thickness_factor: float = 1
 
-export(float, 0, 360) var min_rotation = 15
-export(float, 0, 360) var max_rotation = 35
+@export var min_rotation = 15 # (float, 0, 360)
+@export var max_rotation = 35 # (float, 0, 360)
 
-export(Color) var colour = Color(1, 1, 1, 1)
+@export var colour: Color = Color(1, 1, 1, 1)
 
-export(int, 3, 20) var branch_num_sides = 5
+@export var branch_num_sides = 5 # (int, 3, 20)
 
 # must be a LeafSettings
-export(Resource) var leaf_settings
+@export var leaf_settings: Resource
 
-export(int) var random_seed = 0
+@export var random_seed: int = 0
 
-export(bool) var gen setget do_gen
+@export var gen: bool: set = do_gen
 
 var branches: Array
 
@@ -49,8 +49,8 @@ func _ready() -> void:
 
 
 func generate() -> void:
-	assert(l_system is LSystem, 'l_system must be a resource of type LSystem')
-	assert(leaf_settings is LeafSettings, 'leaf settings must be a resource of type LeafSettings')
+	if not l_system is LSystem: assert(l_system is LSystem, 'seeing type '+str(typeof(l_system))+('' if typeof(l_system)!=TYPE_OBJECT else ' ('+l_system.get_type()+')')+' for l_system that should be a resource of type LSystem')
+	if not l_system is LSystem: assert(leaf_settings is LeafSettings, 'seeing type '+str(typeof(leaf_settings))+('' if typeof(leaf_settings)!=TYPE_OBJECT else ' ('+leaf_settings.get_type()+')')+' for leaf_settings that should be a resource of type LeafSettings')
 	seed(random_seed)
 	
 	var turtle: Turtle = Turtle.new()
@@ -64,17 +64,17 @@ func generate() -> void:
 			'F':
 				turtle.create_branch(length, length_variance, thickness, colour)
 			'+':
-				turtle.rotate(X, rand_range(min_rotation, max_rotation))
+				turtle.rotate(X, randf_range(min_rotation, max_rotation))
 			'-':
-				turtle.rotate(X, -rand_range(min_rotation, max_rotation))
+				turtle.rotate(X, -randf_range(min_rotation, max_rotation))
 			'&':
-				turtle.rotate(Z, rand_range(min_rotation, max_rotation))
+				turtle.rotate(Z, randf_range(min_rotation, max_rotation))
 			'^':
-				turtle.rotate(Z, -rand_range(min_rotation, max_rotation))
+				turtle.rotate(Z, -randf_range(min_rotation, max_rotation))
 			'<':
-				turtle.rotate(Y, rand_range(min_rotation, max_rotation))
+				turtle.rotate(Y, randf_range(min_rotation, max_rotation))
 			'>':
-				turtle.rotate(Y, -rand_range(min_rotation, max_rotation))
+				turtle.rotate(Y, -randf_range(min_rotation, max_rotation))
 			'[':
 				turtle.push()
 				length *= length_factor
@@ -88,7 +88,7 @@ func generate() -> void:
 		$GeneratedTreeMesh.free()
 	
 	var tree: Root = turtle.get_tree()
-	var mesh: MeshInstance = tree.generate_mesh(branch_num_sides, start_thickness, colour, leaf_settings)
+	var mesh: MeshInstance3D = tree.generate_mesh(branch_num_sides, start_thickness, colour, leaf_settings)
 	mesh.set_name('GeneratedTreeMesh')
 	add_child(mesh)
 	

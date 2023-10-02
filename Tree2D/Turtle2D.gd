@@ -17,7 +17,7 @@ func create_line(length: float) -> Branch2D:
 
 func rotate(angle: float) -> void:
 	var transform: TurtleTransform2D = transform_stack[-1]
-	transform.rotate(deg2rad(angle))
+	transform.rotate(deg_to_rad(angle))
 	
 
 func push() -> void:

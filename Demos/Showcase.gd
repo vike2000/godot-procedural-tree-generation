@@ -1,8 +1,8 @@
-extends Spatial
+extends Node3D
 
 
-onready var camera_orbit: Spatial = $CameraOrbit
-onready var current: int = 1
+@onready var camera_orbit: Node3D = $CameraOrbit
+@onready var current: int = 1
 
 
 func _ready() -> void:

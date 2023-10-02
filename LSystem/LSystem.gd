@@ -1,13 +1,13 @@
-tool
+@tool
 class_name LSystem
 extends AACustomResource
 
 
 # the starting string
-export(String) var axiom
+@export var axiom: String
 # each rule must be an AARule
-export(Array, Resource) var rules
-export(int, 1, 20) var num_generations = 5
+@export var rules: Array[Resource]
+@export var num_generations = 5 # (int, 1, 20)
 
 
 func generate() -> String:
