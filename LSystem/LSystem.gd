@@ -11,8 +11,9 @@ extends AACustomResource
 
 
 func generate() -> String:
-	assert(len(axiom) > 0, "axiom required")
+	if not rules is Array[Resource]: assert(rules is Array[Resource], 'seeing type '+str(typeof(rules))+' for rules that should be of type Array[Resource]')
 	assert(len(rules) > 0, "at least one rule required")
+	assert(len(axiom) > 0, "axiom required")
 	for rule in rules:
 		assert(rule is Rule, "rules must be resource of type Rule")
 
