@@ -21,14 +21,14 @@ const Z := Vector3.BACK
 # must be an LSystem
 @export var l_system: Resource
 
-@export var start_length: int = 20
+@export var start_length: float = 20
 @export var length_factor: float = .9
 @export var length_variance: float = .1
-@export var start_thickness = 1 # (float, 0, 100)
+@export var start_thickness: float = 1 # (float, 0, 100)
 @export var thickness_factor: float = 1
 
-@export var min_rotation = 15 # (float, 0, 360)
-@export var max_rotation = 35 # (float, 0, 360)
+@export_range(0, 360) var min_rotation = 15
+@export_range(0, 360) var max_rotation = 35
 
 @export var colour: Color = Color(1, 1, 1, 1)
 
