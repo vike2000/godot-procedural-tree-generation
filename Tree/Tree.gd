@@ -27,9 +27,9 @@ const Z := Vector3.BACK
 @export var start_thickness: float = 1. # (float, 0, 100)
 @export var thickness_factor: float = 1.
 
-# TODO: convert all implementations into rotation_mean and rotation_deviation wh/ rotation_mean = (min_rotation + max_rotation)/2 and rotation_deviation = (max_rotation - min_rotation)/2
-@export_range(0, 360) var min_rotation = 15
-@export_range(0, 360) var max_rotation = 35
+# done: convert all implementations into rotation_mean and rotation_deviation wh/ rotation_mean = (min_rotation + max_rotation)/2 and rotation_deviation = (max_rotation - min_rotation)/2
+@export_range(0, 360) var rotation_origin = 25
+@export_range(0, 360) var rotation_deviation = 10
 
 @export var colour: Color = Color(1, 1, 1, 1)
 
@@ -65,17 +65,17 @@ func generate() -> void:
 			'F':
 				turtle.create_branch(length, length_variance, thickness, colour)
 			'+':
-				turtle.rotate(X, randf_range(min_rotation, max_rotation))
+				turtle.rotate(X, randf_range(rotation_origin-rotation_deviation, rotation_origin+rotation_deviation))
 			'-':
-				turtle.rotate(X, -randf_range(min_rotation, max_rotation))
+				turtle.rotate(X, -randf_range(rotation_origin-rotation_deviation, rotation_origin+rotation_deviation))
 			'&':
-				turtle.rotate(Z, randf_range(min_rotation, max_rotation))
+				turtle.rotate(Z, randf_range(rotation_origin-rotation_deviation, rotation_origin+rotation_deviation))
 			'^':
-				turtle.rotate(Z, -randf_range(min_rotation, max_rotation))
+				turtle.rotate(Z, -randf_range(rotation_origin-rotation_deviation, rotation_origin+rotation_deviation))
 			'<':
-				turtle.rotate(Y, randf_range(min_rotation, max_rotation))
+				turtle.rotate(Y, randf_range(rotation_origin-rotation_deviation, rotation_origin+rotation_deviation))
 			'>':
-				turtle.rotate(Y, -randf_range(min_rotation, max_rotation))
+				turtle.rotate(Y, -randf_range(rotation_origin-rotation_deviation, rotation_origin+rotation_deviation))
 			'[':
 				turtle.push()
 				length *= length_factor

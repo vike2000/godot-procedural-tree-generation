@@ -17,8 +17,8 @@ extends Node2D
 @export var length_factor: float = .5
 @export var thickness = 1 # (int, 1, 100)
 
-@export var min_rotation = 15 # (float, 0, 360)
-@export var max_rotation = 35 # (float, 0, 360)
+@export_range(0, 360) var rotation_origin = 25
+@export_range(0, 360) var rotation_deviation = 10
 
 @export var colour: Color = Color(1, 1, 1, 1)
 
@@ -46,9 +46,9 @@ func generate() -> void:
 			'F':
 				branches.append(turtle.create_line(length))
 			'+':
-				turtle.rotate(randf_range(min_rotation, max_rotation))
+				turtle.rotate(randf_range(rotation_origin-rotation_deviation, rotation_origin+rotation_deviation))
 			'-':
-				turtle.rotate(-randf_range(min_rotation, max_rotation))
+				turtle.rotate(-randf_range(rotation_origin-rotation_deviation, rotation_origin+rotation_deviation))
 			'[':
 				turtle.push()
 				length *= length_factor
