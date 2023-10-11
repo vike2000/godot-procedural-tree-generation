@@ -21,12 +21,13 @@ const Z := Vector3.BACK
 # must be an LSystem
 @export var l_system: Resource
 
-@export var start_length: float = 20
+@export var start_length: float = 20.
 @export var length_factor: float = .9
 @export var length_variance: float = .1
-@export var start_thickness: float = 1 # (float, 0, 100)
-@export var thickness_factor: float = 1
+@export var start_thickness: float = 1. # (float, 0, 100)
+@export var thickness_factor: float = 1.
 
+# TODO: convert all implementations into rotation_mean and rotation_deviation wh/ rotation_mean = (min_rotation + max_rotation)/2 and rotation_deviation = (max_rotation - min_rotation)/2
 @export_range(0, 360) var min_rotation = 15
 @export_range(0, 360) var max_rotation = 35
 
