@@ -134,7 +134,7 @@ static func create_leaves_across_branch(position: Vector3, rotation: Basis,
 		branch_width: float, branch_height: float, settings: LeafSettings) -> MeshAttributes:
 	var attrs := MeshAttributes.new()
 	
-	for i in range(0, branch_height, 1 / settings.frequency):
+	for i in Vector3(0.0, branch_height, 1.0 / settings.frequency):
 		for j in [-1, 1]:
 			var offset := Vector3((branch_width + settings.width / 2) * j, i, 0)
 			var leaf_attrs: MeshAttributes = create_leaf(position + rotation * offset, rotation, settings)
@@ -149,16 +149,19 @@ static func create_leaves_across_branch(position: Vector3, rotation: Basis,
 static func create_leaf(position: Vector3, rotation: Basis, settings: LeafSettings) -> MeshAttributes:
 	var attrs := MeshAttributes.new()
 	
+	var w = settings.width / 2.0
+	var h = settings.height / 2.0
+	
 	attrs.append_verts(PackedVector3Array([
-		position + rotation * Vector3(-settings.width / 2, 0, 0),
-		position + rotation * Vector3(settings.width / 2, 0, 0),
-		position + rotation * Vector3(-settings.width / 2, settings.height, 0),
-		position + rotation * Vector3(settings.width / 2, settings.height, 0),
+		position + rotation * Vector3( 0, 0, 0),
+		position + rotation * Vector3(-w, h, 0),
+		position + rotation * Vector3( 0, h*2, 0),
+		position + rotation * Vector3(+w, h, 0),
 	]))
 	
 	attrs.append_uvs(PackedVector2Array([
-		Vector2(0, 0),
 		Vector2(1, 0),
+		Vector2(0, 0),
 		Vector2(0, 1),
 		Vector2(1, 1),
 	]))
@@ -169,6 +172,7 @@ static func create_leaf(position: Vector3, rotation: Basis, settings: LeafSettin
 	
 	for i in (4):
 		attrs.append_normal(normal)
-	attrs.append_indices(PackedInt32Array([0, 1, 2, 2, 1, 3]), false)
+	
+	attrs.append_indices(PackedInt32Array([0, 1, 2, 2, 3, 0]), false)
 	
 	return attrs
