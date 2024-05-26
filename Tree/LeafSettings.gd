@@ -1,5 +1,5 @@
 class_name LeafSettings
-extends AACustomResource
+extends CustomResource
 
 
 @export var frequency = .5 # (float, 0.001, 1)

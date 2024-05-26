@@ -1,6 +1,6 @@
 @tool
 class_name LSystem
-extends AACustomResource
+extends CustomResource
 
 
 # the starting string
